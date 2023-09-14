@@ -43,8 +43,8 @@ public class BindingHelper {
   };
 
   private static BindHandle getBindHandle(KeyBinding key) {
-    for(BindHandle handle : KEYS_HANDLES) {
-      if(handle.getKey() == key) {
+    for (BindHandle handle : KEYS_HANDLES) {
+      if (handle.getKey() == key) {
         return handle;
       }
     }
@@ -52,12 +52,12 @@ public class BindingHelper {
   }
 
   public static void restoreContextHandlers(Collection<KeyBinding> keys) {
-    for(KeyBinding key : keys) {
+    for (KeyBinding key : keys) {
       BindHandle handle = getBindHandle(key);
-      if(handle != null) {
+      if (handle != null) {
         handle.restoreContext();
         // not being used anymore
-        if(handle.isRestored()) {
+        if (handle.isRestored()) {
           KEYS_HANDLES.remove(handle);
         }
       }
@@ -73,11 +73,11 @@ public class BindingHelper {
   }
 
   public static void disableContextHandlers(Collection<KeyBinding> keys) {
-    for(KeyBinding key : keys) {
+    for (KeyBinding key : keys) {
       BindHandle handle = getBindHandle(key);
 
       // create a new handle if one does not exist
-      if(handle == null) {
+      if (handle == null) {
         handle = new BindHandle(key);
         KEYS_HANDLES.add(handle);
       }
@@ -163,7 +163,7 @@ public class BindingHelper {
   }
 
   public static void saveGameSettings() {
-    if(getGameSettings() != null) {
+    if (getGameSettings() != null) {
       suppressingSettingsPacket = true;
       try {
         getGameSettings().saveOptions();
@@ -175,7 +175,7 @@ public class BindingHelper {
 
   public static KeyBinding getKeyBindByDescription(String desc) {
     for (KeyBinding kb : getGameSettings().keyBindings) {
-      if (kb.getKeyDescription().equalsIgnoreCase(desc)) {
+      if (kb.getKeyDescription().equalsIgnoreCase(desc.replace("-"," "))) {
         return kb;
       }
     }
