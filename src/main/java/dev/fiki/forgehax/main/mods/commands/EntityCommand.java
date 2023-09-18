@@ -5,6 +5,7 @@ import dev.fiki.forgehax.main.util.mod.CommandMod;
 import dev.fiki.forgehax.main.util.mod.loader.RegisterMod;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.stream.Collectors;
@@ -32,9 +33,20 @@ public class EntityCommand extends CommandMod {
               .filter(EntityUtils::isValidEntity)
               .filter(entity -> !(entity instanceof PlayerEntity))
               .filter(entity -> EntityUtils.getEyePos(entity).distanceTo(pos) <= 5)
-              .map(entity -> entity.getType().getName().getString())
+              .map(Entity::getEntityString)
               .collect(Collectors.joining(","));
           args.inform(collect);
+        }).build();
+  }
+
+  {
+    newSimpleCommand().name("itemid")
+        .description("Show item resource location id")
+        .executor(args -> {
+          ResourceLocation registryName = getLocalPlayer().getHeldItemMainhand().getItem().getRegistryName();
+          if (registryName != null) {
+            args.inform(registryName.toString());
+          }
         }).build();
   }
 }
