@@ -82,7 +82,7 @@ public interface Arguments {
   static ConverterArgument.ConverterArgumentBuilder<String> newStringArgument() {
     return ConverterArgument.<String>builder()
         .minArgumentsConsumed(1)
-        .maxArgumentsConsumed(Integer.MAX_VALUE)
+        .maxArgumentsConsumed(1)
         .converter(TypeConverters.STRING);
   }
 

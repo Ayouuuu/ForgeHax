@@ -22,9 +22,9 @@ public class ArgumentList {
     int length = args.length;
 
     List<IValue<?>> values = Lists.newArrayList();
-    for(IArgument<?> arg : command.getArguments()) {
-      if(length < arg.getMinArgumentsConsumed()) {
-        if(arg.isOptional()) {
+    for (IArgument<?> arg : command.getArguments()) {
+      if (length < arg.getMinArgumentsConsumed()) {
+        if (arg.isOptional()) {
           values.add(new Value<>(null, arg));
           continue;
         } else {
@@ -40,6 +40,10 @@ public class ArgumentList {
       // remove the arguments from this list
       length -= range;
 
+
+      if (arg.type() == String.class && start == range) {
+        range = args.length;
+      }
       String[] valueFrom = Arrays.copyOfRange(args, start, range);
       values.add(new Value(arg.parse(String.join(" ", valueFrom)), arg));
 
@@ -71,8 +75,8 @@ public class ArgumentList {
   @SuppressWarnings("unchecked")
   public <T> IValue<T> get(String label) {
     Objects.requireNonNull(label, "label is null");
-    for(IValue<?> val : arguments) {
-      if(label.equalsIgnoreCase(val.getConverter().getLabel())) {
+    for (IValue<?> val : arguments) {
+      if (label.equalsIgnoreCase(val.getConverter().getLabel())) {
         return (IValue<T>) val;
       }
     }
